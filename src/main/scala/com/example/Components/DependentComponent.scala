@@ -70,6 +70,9 @@ object DependentComponent extends DependentTable{
     }
 
   }
+  def sortByDependentName() =  {
+    dependentTableQuery.sortBy(_.name)
+  }
 
 
 }

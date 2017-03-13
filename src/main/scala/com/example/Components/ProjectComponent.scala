@@ -73,6 +73,9 @@ object ProjectComponent extends ProjectTable {
 
 
   }
+  def sortByProjectName() =  {
+    projectTableQuery.sortBy(_.pname)
+  }
 }
 
 

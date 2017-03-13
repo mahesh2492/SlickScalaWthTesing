@@ -56,7 +56,7 @@ import scala.concurrent.{Await, Future}
         def getAll: Future[List[Employee]] = { db.run { employeeTableQuery.to[List].result}}
 
            def upsert(emp : Employee) = {
-             //  removin it EmployeeComponent.
+             //  removing  EmployeeComponent.
             val data: List[Employee] = Await.result(getAll,Duration.Inf)
 
            val flag: List[Boolean] = data.map(x => if(x.id == emp.id) true else false)
@@ -74,6 +74,11 @@ import scala.concurrent.{Await, Future}
 
 
         }
+
+        def sortByExperience() =  {
+          employeeTableQuery.sortBy(_.experience)
+        }
+
      }
 
 
