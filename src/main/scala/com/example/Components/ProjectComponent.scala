@@ -68,7 +68,7 @@ object ProjectComponent extends ProjectTable {
     }
     else {
       val action: Future[Int] = insert(emp)
-      //db.run(action)
+
     }
 
 

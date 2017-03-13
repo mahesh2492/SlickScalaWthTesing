@@ -38,6 +38,7 @@ object Hello extends App{
   DependentComponent.insert(Dependent(1,"Tika","father",Some(50)))
   DependentComponent.sortByDependentName()
   val dependentList =  Await.result(DependentComponent.getAll,Duration.Inf)
+
   println(dependentList)
   Thread.sleep(1000)
 }
