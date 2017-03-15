@@ -7,7 +7,7 @@ import scala.concurrent.{Await, Future}
 
 
 
-trait DependentTable extends EmployeeTable  with  MySqlComponent {
+trait DependentTable extends EmployeeTable   {
 
   this: DbProvider =>
 
@@ -28,7 +28,7 @@ trait DependentTable extends EmployeeTable  with  MySqlComponent {
 
 }
 
-object DependentComponent extends DependentTable{
+trait DependentComponent extends DependentTable{
 
   this: DbProvider =>
 
@@ -77,3 +77,4 @@ object DependentComponent extends DependentTable{
 
 
 }
+object DependentComponent extends DependentComponent with MySqlComponent

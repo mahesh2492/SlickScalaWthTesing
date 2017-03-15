@@ -7,7 +7,7 @@ import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, Future}
 
 
-trait ProjectTable extends EmployeeTable with  MySqlComponent{
+trait ProjectTable extends EmployeeTable {
   this: DbProvider =>
 
   import driver.api._
@@ -29,7 +29,7 @@ trait ProjectTable extends EmployeeTable with  MySqlComponent{
   val projectTableQuery = TableQuery[ProjectTable]
 }
 
-object ProjectComponent extends ProjectTable {
+trait ProjectComponent extends ProjectTable {
   this: DbProvider =>
 
   import driver.api._
@@ -76,6 +76,15 @@ object ProjectComponent extends ProjectTable {
   def sortByProjectName() =  {
     projectTableQuery.sortBy(_.pname)
   }
+
+  def getProjectByName() =  {
+    val res = for {
+      (emp,pro) <- employeeTableQuery join projectTableQuery on (_.id === _.id )
+    } yield(emp.name,pro.pname)
+    db.run(res.to[List].result)
+  }
+
 }
 
 
+object ProjectComponent extends ProjectComponent with  MySqlComponent

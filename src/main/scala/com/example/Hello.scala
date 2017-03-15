@@ -2,6 +2,7 @@ package com.example
 
 import com.example.Components.{DependentComponent, ProjectComponent, EmployeeComponent}
 import com.example.Models.{Dependent, Project, Employee}
+import slick.dbio.DBIOAction
 import scala.concurrent.Await
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.Duration
@@ -16,8 +17,16 @@ object Hello extends App{
   EmployeeComponent.insert(Employee( "manoj joshi",4,3.5D))
   EmployeeComponent.sortByExperience()
 
+
+ val ins1 = Employee("shg",219,1.5D)
+//
+  val ins2 = Employee("ankitkr",610,2.3D)
+
+//  println(Await.result(ins1 zip ins2,Duration.Inf))
+  println(Await.result(EmployeeComponent.addMultiple(ins1,ins2),Duration.Inf))
+
   val employeeList = Await.result(EmployeeComponent.getAll,Duration.Inf)
-  println(employeeList)
+ // println(employeeList)
   Thread.sleep(1000)
 
   ProjectComponent.create
@@ -30,6 +39,7 @@ object Hello extends App{
 
  val projectList =  Await.result(ProjectComponent.getAll,Duration.Inf)
   println(projectList)
+  println(Await.result(ProjectComponent.getProjectByName(),Duration.Inf))
   Thread.sleep(1000)
 
   DependentComponent.create

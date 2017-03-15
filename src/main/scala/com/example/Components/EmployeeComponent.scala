@@ -3,13 +3,14 @@ package com.example.Components
 import com.example.Connection.{PostgresComponent, MySqlComponent,DbProvider}
 import com.example.Models.Employee
 
+
 import scala.concurrent.ExecutionContext.Implicits.global
 
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, Future}
 
 
-      trait EmployeeTable extends  MySqlComponent{
+      trait EmployeeTable {
         this: DbProvider =>
 
         import driver.api._
@@ -26,7 +27,7 @@ import scala.concurrent.{Await, Future}
       }
        val employeeTableQuery = TableQuery[EmployeeTable]
    }
-      object EmployeeComponent extends EmployeeTable {
+      trait EmployeeComponent extends EmployeeTable {
 
 
         this: DbProvider =>
@@ -35,6 +36,7 @@ import scala.concurrent.{Await, Future}
 
 
         def create = db.run(employeeTableQuery.schema.create)
+
 
         def insert(emp : Employee): Future[Int] = db.run {
               employeeTableQuery += emp
@@ -79,6 +81,16 @@ import scala.concurrent.{Await, Future}
           employeeTableQuery.sortBy(_.experience)
         }
 
+        def addMultiple(emp1: Employee, emp2: Employee) ={
+            val ins1 = employeeTableQuery += emp1
+
+            val ins2 = employeeTableQuery += emp2
+            val res = ins1 andThen ins2
+            db.run(res)
+        }
+
+
      }
+object EmployeeComponent extends EmployeeComponent with MySqlComponent
 
 
