@@ -109,6 +109,14 @@ trait ProjectComponent extends ProjectTable {
 
   }
 
+  def teamCount: Future[Option[Int]] = db.run{
+
+    val a = projectTableQuery.map(_.team_members)
+    a.max.result
+  }
+
+
+
 
 
 

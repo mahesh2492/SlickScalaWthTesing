@@ -48,5 +48,13 @@ class ProjectSpec extends AsyncFunSuite {
     proj.insertPlainSql.map(x=>assert(x==1))
   }
 
+  test("max team_members") {
+    proj.teamCount.flatMap(x => assert(x == Some(7)))
+  }
+
+
+
+
+
 
 }
