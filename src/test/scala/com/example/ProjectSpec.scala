@@ -13,7 +13,7 @@ class ProjectSpec extends AsyncFunSuite {
 
   test("Adding new Project ") {
 
-    proj.insert(Project(1,"snake game",4,"mahesh")).map(x=>assert(x == 1))
+    proj.insert(Project(113,"snake game",4,"mahesh")).map(x=>assert(x == 1))
   }
 
   test("Delete Project ") {
@@ -25,7 +25,7 @@ class ProjectSpec extends AsyncFunSuite {
   }
 
   test("upserting projects"){
-    proj.upsert(Project(3,"scalageek",6,"bharat")).map(x => assert(x == 1))
+    proj.upsert(Project(113,"scalageek",6,"bharat")).map(x => assert(x == 1))
   }
 
   test("get all projects") {
@@ -34,7 +34,7 @@ class ProjectSpec extends AsyncFunSuite {
 
 
  test("adding multiple projects") {
-   proj.addMultipleProjects(Project(4,"my cell was stolen",7,"sonu"),Project(5,"royal revolt",6,"vikas")).map(x => assert(x == 1))
+   proj.addMultipleProjects(Project(112,"my cell was stolen",7,"sonu"),Project(113,"royal revolt",6,"vikas")).map(x => assert(x == 1))
  }
 
    test("get project by id") {

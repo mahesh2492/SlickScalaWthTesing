@@ -18,11 +18,11 @@ class EmployeeTableTest extends AsyncFunSuite{
   }
 
   test("delete Employee ") {
-    testing.delete(2.1).map(x=>assert(x == 1))
+    testing.delete(2.5).map(x=>assert(x == 1))
   }
 
   test("get all employees") {
-    testing.getAll.map( x => assert( x.size == 2))
+    testing.getAll.map( x => assert( x.size == 3))
   }
 
 

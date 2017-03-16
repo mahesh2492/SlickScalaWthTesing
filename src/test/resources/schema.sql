@@ -8,5 +8,6 @@ DROP TABLE IF EXISTS project;
                           pname varchar(200) ,
                           team_members int,
                           lead varchar(200),
-                          PRIMARY KEY(pname)
+                          PRIMARY KEY(pname),
+                          FOREIGN KEY(id) REFERENCES experienced_employee(id)
                          );

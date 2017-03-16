@@ -104,10 +104,11 @@ trait ProjectComponent extends ProjectTable {
   }
 
   def insertPlainSql = {
-    val action = sqlu"insert into project values(6, 'todo list',2,'mahesh');"
+    val action = sqlu"insert into project values(111, 'todo list',2,'mahesh');"
     db.run(action)
 
   }
+
 
 
 
