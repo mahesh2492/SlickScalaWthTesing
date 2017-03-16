@@ -59,21 +59,23 @@ import scala.concurrent.{Await, Future}
 
            def upsert(emp : Employee) = {
              //  removing  EmployeeComponent.
-            val data: List[Employee] = Await.result(getAll,Duration.Inf)
+//            val data: List[Employee] = Await.result(getAll,Duration.Inf)
+//
+//           val flag: List[Boolean] = data.map(x => if(x.id == emp.id) true else false)
+//
+//         if(flag.contains(true))
+//             {
+//
+//
+//            val action = employeeTableQuery.filter(_.id === emp.id).map(x => (x.name,x.experience)).update((emp.name,emp.experience))
+//            db.run(action)
+//          }
+//         else {
+//               val action: Future[Int] = insert(emp)
+//       }
+         db.run { employeeTableQuery.insertOrUpdate(emp)
 
-           val flag: List[Boolean] = data.map(x => if(x.id == emp.id) true else false)
-
-         if(flag.contains(true))
-             {
-
-
-            val action = employeeTableQuery.filter(_.id === emp.id).map(x => (x.name,x.experience)).update((emp.name,emp.experience))
-            db.run(action)
-          }
-         else {
-               val action: Future[Int] = insert(emp)
-       }
-
+         }
 
         }
 

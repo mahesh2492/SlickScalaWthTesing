@@ -18,12 +18,12 @@ object Hello extends App{
   EmployeeComponent.sortByExperience()
 
 
- val ins1 = Employee("shg",219,1.5D)
-//
-  val ins2 = Employee("ankitkr",610,2.3D)
+// val ins1 = Employee("shg",5,1.5D)
+////
+//  val ins2 = Employee("ankitkr",6,2.3D)
 
 //  println(Await.result(ins1 zip ins2,Duration.Inf))
-  println(Await.result(EmployeeComponent.addMultiple(ins1,ins2),Duration.Inf))
+ // println(Await.result(EmployeeComponent.addMultiple(ins1,ins2),Duration.Inf))
 
   val employeeList = Await.result(EmployeeComponent.getAll,Duration.Inf)
  // println(employeeList)
@@ -35,11 +35,15 @@ object Hello extends App{
   ProjectComponent.insert(Project( 2,"scalageek",7, "Sonu"))
   ProjectComponent.insert(Project( 3,"codesquad",6, "sahil"))
   ProjectComponent.insert(Project( 4,"royal revolt",7, "bharat"))
+  ProjectComponent.insert(Project(5,"subway surfer",4,"mahesh"))
   ProjectComponent.sortByProjectName()
 
- val projectList =  Await.result(ProjectComponent.getAll,Duration.Inf)
-  println(projectList)
-  println(Await.result(ProjectComponent.getProjectByName(),Duration.Inf))
+// val projectList =  Await.result(ProjectComponent.getAll,Duration.Inf)
+//  println(projectList)
+  val ins1 =Project(5,"subway surfer5",4,"mahesh")
+  val ins2= Project(5,"subway surfer6",4,"mahesh")
+  println(Await.result(ProjectComponent.addMultipleProjects(ins1,ins2),Duration.Inf))
+  println(Await.result(ProjectComponent.getProjectById(5),Duration.Inf))
   Thread.sleep(1000)
 
   DependentComponent.create

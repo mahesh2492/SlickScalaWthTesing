@@ -55,34 +55,62 @@ trait ProjectComponent extends ProjectTable {
   def getAll: Future[List[Project]] = { db.run { projectTableQuery.to[List].result}}
 
   def upsert(emp : Project) = {
-    val data: List[Project] = Await.result(getAll,Duration.Inf)
+//    val data: List[Project] = Await.result(getAll,Duration.Inf)
+//
+//    val flag: List[Boolean] = data.map(x => if(x.pname == emp.pname) true else false)
+//
+//    if(flag.contains(true))
+//    {
+//
+//
+//      val action = projectTableQuery.filter(_.pname === emp.pname).map(x => (x.team_members,x.lead)).update((emp.team_members,emp.lead))
+//      db.run(action)
+//    }
+//    else {
+//      val action: Future[Int] = insert(emp)
+//
+//    }
 
-    val flag: List[Boolean] = data.map(x => if(x.pname == emp.pname) true else false)
-
-    if(flag.contains(true))
-    {
-
-
-      val action = projectTableQuery.filter(_.pname === emp.pname).map(x => (x.team_members,x.lead)).update((emp.team_members,emp.lead))
-      db.run(action)
+    db.run {
+      projectTableQuery.insertOrUpdate(emp)
     }
-    else {
-      val action: Future[Int] = insert(emp)
-
-    }
-
-
   }
   def sortByProjectName() =  {
     projectTableQuery.sortBy(_.pname)
+    true
   }
 
-  def getProjectByName() =  {
-    val res = for {
-      (emp,pro) <- employeeTableQuery join projectTableQuery on (_.id === _.id )
-    } yield(emp.name,pro.pname)
-    db.run(res.to[List].result)
+  def getProjectById(id: Int) =  {
+    val query = projectTableQuery.filter(x => x.id === id).to[List].result
+    db.run(query)
   }
+
+  def addMultipleProjects(pr1: Project,pr2: Project) =
+  {
+    val ins1 = projectTableQuery += pr1
+
+    val ins2 = projectTableQuery += pr2
+    val res = ins1 andThen ins2
+    db.run(res)
+  }
+
+  def getProjectsByEmployeeName = {
+    val action = {
+      for {
+        (e, p) <- employeeTableQuery join projectTableQuery on (_.id === _.id)
+      } yield (e.name, p.pname)
+    }.to[List].result
+    db.run(action)
+  }
+
+  def insertPlainSql = {
+    val action = sqlu"insert into project values(6, 'todo list',2,'mahesh');"
+    db.run(action)
+
+  }
+
+
+
 
 }
 
