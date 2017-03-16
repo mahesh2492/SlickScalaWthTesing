@@ -16,13 +16,13 @@ import scala.concurrent.{Await, Future}
         import driver.api._
 
         class EmployeeTable(tag: Tag) extends Table[Employee](tag, "experienced_employee") {
-         val id = column[Int]("id",O.PrimaryKey)
+         val id = column[Int]("id",O.PrimaryKey,O.AutoInc)
 
          val name = column[String]("name")
 
          val experience = column[Double]("experience")
 
-         def * = (name,id,experience) <> (Employee.tupled, Employee.unapply)
+         def * = (name,experience,id) <> (Employee.tupled, Employee.unapply)
 
       }
        val employeeTableQuery = TableQuery[EmployeeTable]
@@ -39,7 +39,7 @@ import scala.concurrent.{Await, Future}
 
 
         def insert(emp : Employee): Future[Int] = db.run {
-              employeeTableQuery += emp
+          employeeTableQuery.returning(employeeTableQuery.map(_.id)) += emp
         }
 
 

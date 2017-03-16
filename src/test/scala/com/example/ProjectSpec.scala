@@ -13,7 +13,7 @@ class ProjectSpec extends AsyncFunSuite {
 
   test("Adding new Project ") {
 
-    proj.insert(Project(113,"snake game",4,"mahesh")).map(x=>assert(x == 1))
+    proj.insert(Project("snake game",4,"mahesh",113)).map(x=>assert(x == 113))
   }
 
   test("Delete Project ") {
@@ -25,7 +25,7 @@ class ProjectSpec extends AsyncFunSuite {
   }
 
   test("upserting projects"){
-    proj.upsert(Project(113,"scalageek",6,"bharat")).map(x => assert(x == 1))
+    proj.upsert(Project("scalageek",6,"bharat",113)).map(x => assert(x == 1))
   }
 
   test("get all projects") {
@@ -33,12 +33,14 @@ class ProjectSpec extends AsyncFunSuite {
   }
 
 
+
  test("adding multiple projects") {
-   proj.addMultipleProjects(Project(112,"my cell was stolen",7,"sonu"),Project(113,"royal revolt",6,"vikas")).map(x => assert(x == 1))
+   proj.addMultipleProjects(Project("my cell was stolen",7,"sonu",112),Project("royal revolt2",6,"vikas",113)).map(x => assert(x == 1))
  }
 
+
    test("get project by id") {
-     proj.getProjectById(112).map(x => assert(x == List(Project(112,"angry bird",7,"shivangi"))))
+     proj.getProjectById(112).map(x => assert(x == List(Project("angry bird",7,"shivangi",112))))
    }
 
   test("join ") {
@@ -50,6 +52,9 @@ class ProjectSpec extends AsyncFunSuite {
 
   test("max team_members") {
     proj.teamCount.flatMap(x => assert(x == Some(7)))
+  }
+  test("return inserted object") {
+    proj.insertRecordObj(Project("todo list",3,"sahil",112)).map( x => assert( x === Project("todo list",3,"sahil",113)))
   }
 
 

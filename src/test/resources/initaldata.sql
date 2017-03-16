@@ -1,8 +1,7 @@
-INSERT INTO `experienced_employee` (`name`, `id`, `experience`) VALUES ('ankitInitial', 111, 5.1);
+INSERT INTO `experienced_employee` (`name`, `experience`, `id`) VALUES ('ankitInitial', 5.1, 111);
+INSERT INTO `experienced_employee` (`name`,  `experience`, `id`) VALUES ('maheshInitial',2.1, 112);
+INSERT INTO `experienced_employee` (`name`, `experience`, `id`) VALUES ('shivaInitial',2.5, 113);
+INSERT INTO `experienced_employee` (`name`, `experience`, `id`) VALUES ('shivaInit',2.5, 114);
 
-INSERT INTO `experienced_employee` (`name`, `id`, `experience`) VALUES ('maheshInitial',112, 2.1);
-INSERT INTO `experienced_employee` (`name`, `id`, `experience`) VALUES ('shivaInitial',113, 2.5);
-
-INSERT INTO `project` (`id`, `pname`, `team_members`,`lead`) VALUES (111,'subway surfer', 4, 'mahesh');
-
-INSERT INTO `project` (`id`, `pname`, `team_members`,`lead`) VALUES (112,'angry bird', 7, 'shivangi');
+INSERT INTO `project` ( `pname`, `team_members`,`lead`, `id`) VALUES ('subway surfer', 4, 'mahesh',111);
+INSERT INTO `project` ( `pname`, `team_members`,`lead`, `id`) VALUES ('angry bird', 7, 'shivangi',112);

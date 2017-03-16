@@ -13,17 +13,17 @@ trait ProjectTable extends EmployeeTable {
   import driver.api._
 
   class ProjectTable(tag: Tag) extends Table[Project](tag, "project") {
-    val id = column[Int]("id")
+    val id = column[Int]("id",O.PrimaryKey,O.AutoInc)
 
-    def employeeProjectFK = foreignKey("employee_project_fk",id,employeeTableQuery)(_.id)
-
-    val pname = column[String]("pname",O.PrimaryKey)
+    val pname = column[String]("pname")
 
     val team_members = column[Int]("team_members")
 
     val lead = column[String]("lead")
 
-    def * = (id,pname,team_members,lead) <> (Project.tupled, Project.unapply)
+    def employeeProjectFK = foreignKey("employee_project_fk",id,employeeTableQuery)(_.id)
+
+    def * = (pname,team_members,lead,id) <> (Project.tupled, Project.unapply)
 
   }
   val projectTableQuery = TableQuery[ProjectTable]
@@ -37,8 +37,8 @@ trait ProjectComponent extends ProjectTable {
   def create = db.run(projectTableQuery.schema.create)
 
 
-  def insert(prj: Project) = db.run {
-    projectTableQuery += prj
+  def insert(proj: Project) = db.run {
+    projectTableQuery.returning(projectTableQuery.map(_.id)) += proj
   }
 
   def delete(pname: String) = {
@@ -91,6 +91,7 @@ trait ProjectComponent extends ProjectTable {
 
     val ins2 = projectTableQuery += pr2
     val res = ins1 andThen ins2
+    //res.map(println)
     db.run(res)
   }
 
@@ -104,7 +105,7 @@ trait ProjectComponent extends ProjectTable {
   }
 
   def insertPlainSql = {
-    val action = sqlu"insert into project values(111, 'todo list',2,'mahesh');"
+    val action = sqlu"insert into project values('todo list',2,'mahesh',113);"
     db.run(action)
 
   }
@@ -115,9 +116,16 @@ trait ProjectComponent extends ProjectTable {
     a.max.result
   }
 
-
-
-
+  def insertRecordObj(proj: Project): Future[Project] = {
+    val insertQuery = projectTableQuery returning projectTableQuery.map(_.id) into ((item,id) => item.copy(emp_id = id))
+    val action = insertQuery += proj
+    db.run(action)
+  }
+//  val userWithId =
+//    (users returning users.map(_.id)
+//      into ((user,id) => user.copy(id=Some(id)))
+//      ) += User(None, "Stefan", "Zeiger")
+  //def createToken(user: UserEntity): Future[TokenEntity] = db.run(tokens returning tokens += TokenEntity(userId = user.id))
 
 
 
